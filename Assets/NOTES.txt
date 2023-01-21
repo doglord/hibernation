@@ -1,0 +1,44 @@
+Futuristic sliders (and knobs maybe)
+    - futuretech: "@FabrizioMazzoni: I've heard that taps are ignored, and large directional swipes (think iPhone's "Slide to Unlock") are the safe way to design for touch-screen controls in the cockpit."
+
+stable diffusion art assets?
+DAW???
+
+if a knob is cool we will make it
+
+last human alive escaping from earth?
+
+shatner - 
+“My trip to space was supposed to be a celebration; instead, it felt like a funeral,” 
+I love the mystery of the universe. 
+I love all the questions that have come to us over thousands of years of exploration and hypotheses 
+… but when I looked in the opposite direction, into space, there was no mystery, no majestic awe to behold … all I saw was death"
+
+Levers/Cockpit UX - 
+"During World War II, bomber aircraft returning from long overnight raids were inexplicably raising their landing gear just before landing, resulting in many deaths. 
+The last action before landing was for the pilots to move the flap lever. 
+However, the flap lever was shaped exactly the same as the landing gear lever and was located next to each other. 
+Investigations into these accidents found that, in their exhausted state, the pilots were erroneously moving the landing gear, instead of the flaps.
+To prevent this from happening, the landing gear lever was topped with a small wheel to feel like a wheel and the flap lever was fitted with a small flap so that it felt like a flap. 
+Almost overnight, accidents of this nature stopped, and this design philosophy continues in airliners today."
+
+
+Engine Fire - 
+"However, the most important thing to do in this scenario is to ensure that we are indeed shutting down the engine with the fire and not the remaining good engine. 
+To help us identify the correct engine, the fire handle which we need to pull illuminates red.
+The action of pulling the fire handle isolates the engine from a number of aircraft systems including the fuel, hydraulics, electrical generators, engine anti-ice, bleed air and thrust reversers. 
+It also arms the fire extinguishers, ready to be discharged into the engine by turning the handle to either side."
+
+what could go wrong?
+    - if awake, human meltdown
+    - critical hull failure (overpressure, impact)
+    - power failure
+    - biorhythm desync (whatever that means)
+
+a) you can only use autopilot for a limited amount of systems at a time
+b) random autopilot systems fail
+c) autopilot will occasionally glitch/give bad info and cause a bad reaction. up to you to disengage AP and fix
+
+desert bus? 
+
+goal: reach the destination
