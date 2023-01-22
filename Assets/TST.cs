@@ -7,7 +7,7 @@ public class TST : MonoBehaviour
     public AudioSource vitalityPilot;
     public void doht()
     {
-        vitalityPilot.Play();
+        //vitalityPilot.Play();
         print($"CLICKED");
     }
 }
