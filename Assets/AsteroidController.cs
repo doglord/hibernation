@@ -5,6 +5,9 @@ using static Asteroid;
 
 public class AsteroidController : MonoBehaviour
 {
+    public delegate void OnAsteroidSpawnedEvent(Asteroid asteroid);
+    public static OnAsteroidSpawnedEvent onAsteroidSpawned;
+
     public GameObject smallAsteroid;
     public GameObject medAsteroid;
     public GameObject largeAsteroid;
@@ -42,12 +45,15 @@ public class AsteroidController : MonoBehaviour
         }
 
         // place & set target
-        asteroid.transform.position = ship.transform.position + (Vector3.up * 10) + (Vector3.right * Random.Range(-10f, 10f));
+        asteroid.transform.position = ship.transform.position + (Vector3.up * SpawnHeight) + (Vector3.right * Random.Range(-10f, 10f));
         asteroid.GetComponent<Asteroid>().target = ship.transform.position;
+
+        onAsteroidSpawned?.Invoke(asteroid.GetComponent<Asteroid>());
     }
 
-    float minSpawnWait = 10f;
-    float maxSpawnWait = 45f;
+    public float SpawnHeight = 7f;
+    float minSpawnWait = 15f;
+    float maxSpawnWait = 40f;
     IEnumerator SpawnAsteroidCR()
     {
         while(true)

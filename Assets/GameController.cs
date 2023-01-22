@@ -31,8 +31,12 @@ public class GameController : MonoBehaviour
 
     public TMP_Text hullStrengthDisplay;
     public TMP_Text powerDisplayText;
+    public GameObject asteroidWarningPopup;
+    public TMP_Text asteroidWarningSizeText;
 
     bool GAME_OVER = false;
+
+    public float BaseAsteroidImpact = 0.15f;
 
 
     // pressure loss == vacuum
@@ -64,12 +68,13 @@ public class GameController : MonoBehaviour
         slider_Anesthetic.value = stat_Anesthetic;
 
         ShipCollider.onShipCollision += OnShipCollision;
+        AsteroidController.onAsteroidSpawned += OnAsteroidSpawned;
     }
 
     void Update()
     {
         // jitter bc he is a mess
-        // stat_Vitals += UnityEngine.Random.Range(-idleVarianceStrength, idleVarianceStrength) * Time.deltaTime;
+        stat_Vitals += UnityEngine.Random.Range(-idleVarianceStrength, idleVarianceStrength) * Time.deltaTime;
         
         // gain solar power
         stat_Power = Mathf.Min(stat_Power + powerGain * Time.deltaTime, max_power);
@@ -81,6 +86,10 @@ public class GameController : MonoBehaviour
         else if(stat_Vitals < 0.5f && stat_Anesthetic > initStat_Anesthetic)
         {
             stat_Vitals = Mathf.Min(0.5f, stat_Vitals + (stat_Anesthetic - initStat_Anesthetic) * vitalDecayRate * Time.deltaTime);
+        }
+        else if(stat_Vitals > 0.5f && stat_Anesthetic > initStat_Anesthetic)
+        {
+            stat_Vitals = Mathf.Max(0.5f, stat_Vitals - (stat_Anesthetic - initStat_Anesthetic) * vitalDecayRate * Time.deltaTime);
         }
 
         
@@ -139,8 +148,31 @@ public class GameController : MonoBehaviour
             Debug.Log("HULL BREACH");
             EndGame();
         }
+        else
+        {
+            Debug.Log("HULL HIT");
+            stat_Vitals = Mathf.Min(1f, stat_Vitals + BaseAsteroidImpact * ((int)asteroid.type + 1));
+            
+            // awake
+            if(stat_Vitals >= 1f)
+                EndGame();
+        }
 
         Destroy(asteroid.gameObject);
+    }
+    public void OnAsteroidSpawned(Asteroid asteroid)
+    {
+        IEnumerator DelayThenStart()
+        {
+            yield return new WaitForSeconds(2f);
+            asteroid.started = true;
+            yield return new WaitForSeconds(3f);
+            asteroidWarningPopup.SetActive(false);
+        }
+        StartCoroutine(DelayThenStart());
+
+        asteroidWarningPopup.SetActive(true);
+        asteroidWarningSizeText.text = $"[{asteroid.type.ToString()}]";
     }
     public void OnResetAnestheticLevel()
     {
