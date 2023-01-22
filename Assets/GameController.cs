@@ -7,6 +7,7 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
+    public AudioSource theme;
     float stat_Power = 0.5f;
     float max_power = 1f;
 
@@ -77,6 +78,8 @@ public class GameController : MonoBehaviour
 
         totalTime = System.TimeSpan.FromHours(26);
         // totalTime = System.TimeSpan.FromSeconds(11);
+        theme.loop = true;
+        theme.Play();
 
         ToggleAutoPilot();
     }
