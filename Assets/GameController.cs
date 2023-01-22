@@ -98,7 +98,13 @@ public class GameController : MonoBehaviour
         seconds += Time.deltaTime;
 
         // jitter bc he is a mess
-        stat_Vitals += UnityEngine.Random.Range(-idleVarianceStrength, idleVarianceStrength) * Time.deltaTime;
+        var jitter = UnityEngine.Random.Range(-idleVarianceStrength, idleVarianceStrength);
+        if(AutopilotEnabled)
+        {
+            if((jitter < 0f && stat_Vitals < 0.5f) || (jitter > 0f && stat_Vitals > 0.5f))
+                jitter = jitter * 0.25f;
+        }
+        stat_Vitals += jitter * Time.deltaTime;
         
         // gain solar power
         stat_Power = Mathf.Min(stat_Power + powerGain * Time.deltaTime, max_power);
