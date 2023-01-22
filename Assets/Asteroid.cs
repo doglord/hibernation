@@ -14,9 +14,12 @@ public class Asteroid : MonoBehaviour
     public Vector3 target;
     public float MoveSpeed = 5f;
     public float RotateSpeed = 5f;
+    public bool started = false;
 
     void Update()
     {
+        if(!started) return;
+        
         transform.position += (target - transform.position).normalized * MoveSpeed * Time.deltaTime;
 
         transform.RotateAround(transform.position, Vector3.forward, RotateSpeed * Time.deltaTime);
