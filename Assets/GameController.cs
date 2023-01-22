@@ -7,6 +7,7 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
+    public AudioSource theme;
     float stat_Power = 0.5f;
     float max_power = 1f;
 
@@ -77,8 +78,9 @@ public class GameController : MonoBehaviour
         AsteroidController.onAsteroidSpawned += OnAsteroidSpawned;
         FadePanel.Inst.onFadeComplete.AddListener(OnFadeOutComplete);
 
+        theme.loop = true;
+        theme.Play();
         totalTime = System.TimeSpan.FromHours(11);
-        // totalTime = System.TimeSpan.FromMinutes(5);
 
         ToggleAutoPilot();
     }
@@ -133,13 +135,11 @@ public class GameController : MonoBehaviour
             pulse.Play();
         if(AutopilotEnabled)
         {
-            stat_Power -= max_power * 0.05f * Time.deltaTime;
+            stat_Power += max_power * 0.05f * Time.deltaTime;
             stat_Anesthetic = initStat_Anesthetic;
             slider_Anesthetic.value = stat_Anesthetic;
         }
-        else {
-            stat_Power += max_power * 0.05f * Time.deltaTime;
-        }
+
         if(stat_Power <= 0f)
             EndGame(Ending.PowerLoss);
 
