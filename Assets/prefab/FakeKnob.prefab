@@ -163,7 +163,7 @@ RectTransform:
   m_GameObject: {fileID: 677066456}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.726, y: 0.726, z: 0.726}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 129403761}
@@ -172,7 +172,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 75.2, y: 0}
+  m_AnchoredPosition: {x: 65.9, y: 0}
   m_SizeDelta: {x: 38.138, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &677066460
@@ -256,7 +256,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 677066459}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8187610566284612430}
+        m_TargetAssemblyTypeName: FakeKnobPanel, Assembly-CSharp
+        m_MethodName: OnPressRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1334377662
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +432,7 @@ RectTransform:
   m_GameObject: {fileID: 1377358137}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.73484, y: 0.73484, z: 0.73484}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1334377663}
@@ -429,7 +441,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -74.3, y: 0}
+  m_AnchoredPosition: {x: -59.5, y: 0}
   m_SizeDelta: {x: 40.481, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1377358141
@@ -513,7 +525,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1377358140}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8187610566284612430}
+        m_TargetAssemblyTypeName: FakeKnobPanel, Assembly-CSharp
+        m_MethodName: OnPressLeft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1631993089
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +565,7 @@ RectTransform:
   m_GameObject: {fileID: 1631993089}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.69948, y: 0.69948, z: 0.69948}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 783760830490260834}
@@ -599,6 +623,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 783760830490260834}
+  - component: {fileID: 8187610566284612430}
   m_Layer: 5
   m_Name: FakeKnob
   m_TagString: Untagged
@@ -615,7 +640,7 @@ RectTransform:
   m_GameObject: {fileID: 7434280270938228522}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.22656661, y: 0.22656661, z: 0.22656661}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1631993090}
@@ -629,3 +654,45 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8187610566284612430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7434280270938228522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1569a2cb9fe770b40bb20b5b922062de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftButtonPressed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: OnHullPanelPressLeft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  RightButtonPressed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: OnHullPanelPressRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

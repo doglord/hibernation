@@ -15,6 +15,9 @@ public class AsteroidController : MonoBehaviour
     public Transform ship;
 
     bool allowFiring = true;
+
+    public AudioSource alertSource;
+
     void Start()
     {
         StartCoroutine(SpawnAsteroidCR());
@@ -49,11 +52,13 @@ public class AsteroidController : MonoBehaviour
         asteroid.GetComponent<Asteroid>().target = ship.transform.position;
 
         onAsteroidSpawned?.Invoke(asteroid.GetComponent<Asteroid>());
+        
+        GetComponent<AudioSource>().Play();
     }
 
     public float SpawnHeight = 7f;
-    float minSpawnWait = 15f;
-    float maxSpawnWait = 40f;
+    float minSpawnWait = 10f;
+    float maxSpawnWait = 25f;
     IEnumerator SpawnAsteroidCR()
     {
         while(true)
