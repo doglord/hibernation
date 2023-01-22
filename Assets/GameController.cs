@@ -120,7 +120,7 @@ public class GameController : MonoBehaviour
             pulse.Play();
         if(AutopilotEnabled)
         {
-            stat_Power += max_power * 0.005f;
+            stat_Power += max_power * 0.05f * Time.deltaTime;
             stat_Anesthetic = initStat_Anesthetic;
             slider_Anesthetic.value = stat_Anesthetic;
         }
