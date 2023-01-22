@@ -59,8 +59,10 @@ public class GameController : MonoBehaviour
     // every turn:
         // ++ power (solar)
         // 
-    System.TimeSpan totalTime;
-    float seconds = 0f;
+    [HideInInspector]
+    public System.TimeSpan totalTime;
+    [HideInInspector]
+    public float seconds = 0f;
     void Start()
     {
         initStat_Anesthetic = stat_Anesthetic;
@@ -75,8 +77,8 @@ public class GameController : MonoBehaviour
         AsteroidController.onAsteroidSpawned += OnAsteroidSpawned;
         FadePanel.Inst.onFadeComplete.AddListener(OnFadeOutComplete);
 
-        totalTime = System.TimeSpan.FromHours(26);
-        // totalTime = System.TimeSpan.FromSeconds(11);
+        totalTime = System.TimeSpan.FromHours(11);
+        // totalTime = System.TimeSpan.FromMinutes(5);
 
         ToggleAutoPilot();
     }
@@ -131,9 +133,12 @@ public class GameController : MonoBehaviour
             pulse.Play();
         if(AutopilotEnabled)
         {
-            stat_Power += max_power * 0.05f * Time.deltaTime;
+            stat_Power -= max_power * 0.05f * Time.deltaTime;
             stat_Anesthetic = initStat_Anesthetic;
             slider_Anesthetic.value = stat_Anesthetic;
+        }
+        else {
+            stat_Power += max_power * 0.05f * Time.deltaTime;
         }
         if(stat_Power <= 0f)
             EndGame(Ending.PowerLoss);
@@ -192,15 +197,16 @@ public class GameController : MonoBehaviour
         {
             if(currentHullStrengthLevel < ((int)asteroid.type + 1))
             {
-                // hull breach
-                Debug.Log("HULL BREACH");
                 EndGame(Ending.HullBreach);
             }
             else
             {
-                Debug.Log("HULL HIT");
-                stat_Vitals = Mathf.Min(1f, stat_Vitals + BaseAsteroidImpact * ((int)asteroid.type + 1));
+                stat_Vitals = Mathf.Min(1f, stat_Vitals + BaseAsteroidImpact * ((int)asteroid.type + 1) * 0.15f);
             }
+        }
+        else
+        {
+            stat_Power = Mathf.Max(0f, stat_Power - BaseAsteroidImpact * ((int)asteroid.type + 1) * 0.15f);
         }
         
 

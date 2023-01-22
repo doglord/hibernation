@@ -25,7 +25,7 @@ public class ScreenTrigger : MonoBehaviour
             return;
             
         // check for asteroid in screen
-        Debug.Log("ASTEROID APPROACHING");  
+        // Debug.Log("ASTEROID APPROACHING");  
         if(coll.tag == "Asteroid")
         {
             asteroid = coll.gameObject.GetComponent<Asteroid>();

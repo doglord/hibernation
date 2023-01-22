@@ -27,6 +27,9 @@ public class AsteroidController : MonoBehaviour
 
     void SpawnAsteroid(AsteroidType type)
     {
+        if(GameController.Inst.GAME_OVER || FindObjectsOfType<Asteroid>(true).Length > 0)
+            return;
+
         GameObject asteroid;
         switch(type)
         {
@@ -54,8 +57,8 @@ public class AsteroidController : MonoBehaviour
     }
 
     public float SpawnHeight = 7f;
-    float minSpawnWait = 10f;
-    float maxSpawnWait = 25f;
+    float minSpawnWait = 15f;
+    float maxSpawnWait = 35f;
     IEnumerator SpawnAsteroidCR()
     {
         while(true)

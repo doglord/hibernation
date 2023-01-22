@@ -1,16 +1,10 @@
 
 
 TODO :
-    - ending anims
     - title screen
     - properly align panels
     
 - generate assets
 assets:
   - switch
-  - bio fillbar bg
-  - bio fillbar fill
-  - power fillbar bg
-  - power fillbar fill
-  - syringe fill
-  - dashboard
+  - anesthetic handle
