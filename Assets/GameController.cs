@@ -73,6 +73,8 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        if(GAME_OVER) return;
+
         // jitter bc he is a mess
         stat_Vitals += UnityEngine.Random.Range(-idleVarianceStrength, idleVarianceStrength) * Time.deltaTime;
         
@@ -98,10 +100,10 @@ public class GameController : MonoBehaviour
         stat_Power = Mathf.Max(stat_Power - hullPowerDraw * Time.deltaTime, 0f);
 
         if(stat_Power <= 0f)
-            EndGame();
+            EndGame(Ending.PowerLoss);
 
         if(stat_Vitals <= 0f)
-            EndGame();
+            EndGame(Ending.Paralyzed);
 
         UpdateDashboard();
     }
@@ -146,7 +148,7 @@ public class GameController : MonoBehaviour
         {
             // hull breach
             Debug.Log("HULL BREACH");
-            EndGame();
+            EndGame(Ending.HullBreach);
         }
         else
         {
@@ -155,7 +157,7 @@ public class GameController : MonoBehaviour
             
             // awake
             if(stat_Vitals >= 1f)
-                EndGame();
+                EndGame(Ending.Awakened);
         }
 
         Destroy(asteroid.gameObject);
@@ -180,7 +182,16 @@ public class GameController : MonoBehaviour
         slider_Anesthetic.value = stat_Anesthetic;
     }
 
-    void EndGame()
+    enum Ending
+    {
+        HullBreach,
+        Paralyzed,
+        Awakened,
+        PowerLoss,
+        WIN
+    }
+
+    void EndGame(Ending ending)
     {
         if(GAME_OVER) return;
 
