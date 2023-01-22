@@ -127,7 +127,7 @@ public class GameController : MonoBehaviour
         stat_Power = Mathf.Max(stat_Power - vitalsPowerDraw * Time.deltaTime, 0f);
         stat_Power = Mathf.Max(stat_Power - hullPowerDraw * Time.deltaTime, 0f);
 
-        if (stat_Vitals <= 0.25f && !pulse.isPlaying)
+        if (stat_Vitals <= 0.33f && !pulse.isPlaying)
             pulse.Play();
         if(AutopilotEnabled)
         {
@@ -312,7 +312,6 @@ public class GameController : MonoBehaviour
         {
             slider_Anesthetic.interactable = false;
             hullPanel.DisableInteract();
-
             currentHullStrengthLevel = 0;
         }
         else

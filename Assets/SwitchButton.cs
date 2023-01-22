@@ -8,6 +8,8 @@ public class SwitchButton : MonoBehaviour
 {
     public Sprite SwitchOnSprite;
     public Sprite SwitchOffSprite;
+    public AudioSource capn;
+    public List<AudioClip> capnclips;
 
     bool toggledOn = true;
     public void Toggle()
@@ -20,13 +22,13 @@ public class SwitchButton : MonoBehaviour
     void SwitchOn()
     {
         toggledOn = true;
-
         GetComponent<Image>().sprite = SwitchOnSprite;
+        capn.PlayOneShot(capnclips[0]);
     }
     void SwitchOff()
     {
         toggledOn = false;
-
         GetComponent<Image>().sprite = SwitchOffSprite;
+        capn.PlayOneShot(capnclips[1]);
     }
 }
