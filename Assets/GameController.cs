@@ -38,6 +38,9 @@ public class GameController : MonoBehaviour
 
     public float BaseAsteroidImpact = 0.15f;
 
+    public static GameController Inst;
+    void Awake(){Inst = this;}
+
 
     // pressure loss == vacuum
     // electricity
@@ -74,11 +77,13 @@ public class GameController : MonoBehaviour
 
         totalTime = System.TimeSpan.FromHours(26);
         // totalTime = System.TimeSpan.FromSeconds(11);
+
+        ToggleAutoPilot();
     }
 
     public AudioSource pulse;
     public TMP_Text timerText;
-    bool AutopilotEnabled = true;
+    public bool AutopilotEnabled = false;
     void Update()
     {
         if(GAME_OVER) return;
@@ -171,23 +176,28 @@ public class GameController : MonoBehaviour
         if (!hullRightButton.isPlaying)
             hullRightButton.Play();
     }
+    public float APPowerHitDrain = 0.1f;
     public void OnShipCollision(Asteroid asteroid)
     {
-        if(currentHullStrengthLevel < ((int)asteroid.type + 1))
+        if(!AutopilotEnabled)
         {
-            // hull breach
-            Debug.Log("HULL BREACH");
-            EndGame(Ending.HullBreach);
+            if(currentHullStrengthLevel < ((int)asteroid.type + 1))
+            {
+                // hull breach
+                Debug.Log("HULL BREACH");
+                EndGame(Ending.HullBreach);
+            }
+            else
+            {
+                Debug.Log("HULL HIT");
+                stat_Vitals = Mathf.Min(1f, stat_Vitals + BaseAsteroidImpact * ((int)asteroid.type + 1));
+            }
         }
-        else
-        {
-            Debug.Log("HULL HIT");
-            stat_Vitals = Mathf.Min(1f, stat_Vitals + BaseAsteroidImpact * ((int)asteroid.type + 1));
-            
-            // awake
-            if(stat_Vitals >= 1f)
-                EndGame(Ending.Awakened);
-        }
+        
+
+        // awake
+        if(stat_Vitals >= 1f)
+            EndGame(Ending.Awakened);
 
         Destroy(asteroid.gameObject);
     }
@@ -225,7 +235,7 @@ public class GameController : MonoBehaviour
         if(GAME_OVER) return;
 
         GAME_OVER = true;
-        Debug.Log("GAME OVER");
+        Debug.Log($"GAME OVER: {ending.ToString()}");
 
         FadePanel.Inst.RunFade(2f);
     }
@@ -255,6 +265,8 @@ public class GameController : MonoBehaviour
         {
             slider_Anesthetic.interactable = false;
             hullPanel.DisableInteract();
+
+            currentHullStrengthLevel = 0;
         }
         else
         {
