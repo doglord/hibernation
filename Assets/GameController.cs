@@ -247,6 +247,7 @@ public class GameController : MonoBehaviour
     public Animator awakenAnimator;
     public AudioSource panicAudio;
     public AudioSource vacuumAudio;
+    public AudioSource decompressionChamber;
     void EndGame(Ending ending)
     {
         if(GAME_OVER) return;
@@ -283,6 +284,7 @@ public class GameController : MonoBehaviour
                 // play animation
                 Debug.Log("ANIM");
                 awakenAnimator.Play("open");
+                decompressionChamber.Play();
                 yield return new WaitForSeconds(/*anim duration + beat*/4.5f);
                 FadePanel.Inst.RunFade(0f);
             }
@@ -335,7 +337,6 @@ public class GameController : MonoBehaviour
             hullPanel.EnableInteract();
         }
     }
-
 
     void OnDestroy()
     {
