@@ -121,7 +121,7 @@ public class GameController : MonoBehaviour
         stat_Power = Mathf.Max(stat_Power - vitalsPowerDraw * Time.deltaTime, 0f);
         stat_Power = Mathf.Max(stat_Power - hullPowerDraw * Time.deltaTime, 0f);
 
-        if (stat_Vitals >= 0.66f && !pulse.isPlaying)
+        if (stat_Vitals <= 0.33f && !pulse.isPlaying)
             pulse.Play();
         if(AutopilotEnabled)
         {
