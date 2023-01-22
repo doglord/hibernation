@@ -23,9 +23,6 @@ public class AsteroidController : MonoBehaviour
         StartCoroutine(SpawnAsteroidCR());
     }
     void Update(){
-        if(Input.GetKeyDown(KeyCode.J)) SpawnAsteroid(AsteroidType.Small);
-        if(Input.GetKeyDown(KeyCode.K)) SpawnAsteroid(AsteroidType.Medium);
-        if(Input.GetKeyDown(KeyCode.L)) SpawnAsteroid(AsteroidType.Large);
     }
 
     void SpawnAsteroid(AsteroidType type)
@@ -63,6 +60,9 @@ public class AsteroidController : MonoBehaviour
     {
         while(true)
         {
+            if(GameController.Inst.GAME_OVER)
+                yield break;
+
             if(!allowFiring)
             {
                 yield return new WaitForSeconds(Random.Range(minSpawnWait, maxSpawnWait));

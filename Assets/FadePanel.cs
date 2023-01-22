@@ -14,7 +14,10 @@ public class FadePanel : MonoBehaviour
     {
         IEnumerator DoFade()
         {
+            
             var t = 0f;
+            if(fadeTime <= 0f)
+                t = 1f;
             while(image.color.a < 1f)
             {
                 var c = image.color;

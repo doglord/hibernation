@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour
     public GameObject asteroidWarningPopup;
     public TMP_Text asteroidWarningSizeText;
 
-    bool GAME_OVER = false;
+    public bool GAME_OVER = false;
 
     public float BaseAsteroidImpact = 0.15f;
 
@@ -133,7 +133,7 @@ public class GameController : MonoBehaviour
             EndGame(Ending.PowerLoss);
 
         if(stat_Vitals <= 0f)
-            EndGame(Ending.Paralyzed);
+            EndGame(Ending.Awakened);
 
         UpdateDashboard();
     }
@@ -195,9 +195,8 @@ public class GameController : MonoBehaviour
         }
         
 
-        // awake
         if(stat_Vitals >= 1f)
-            EndGame(Ending.Awakened);
+            EndGame(Ending.Paralyzed);
 
         Destroy(asteroid.gameObject);
     }
@@ -229,15 +228,50 @@ public class GameController : MonoBehaviour
         PowerLoss,
         WIN
     }
-
+    Ending currentEnding;
     void EndGame(Ending ending)
     {
         if(GAME_OVER) return;
 
+
+        currentEnding = ending;
         GAME_OVER = true;
         Debug.Log($"GAME OVER: {ending.ToString()}");
 
-        FadePanel.Inst.RunFade(2f);
+        if(ending == Ending.HullBreach)
+        {
+            IEnumerator runhullbreach()
+            {
+                yield return new WaitForSeconds(2f);
+                // play sound
+                Debug.Log("VACUM");
+                yield return new WaitForSeconds(/*sound duration*/1f);
+                FadePanel.Inst.RunFade(0f);
+            }
+            StartCoroutine(runhullbreach());
+            // was hit
+            // wait a tick
+            // play vacuum sound
+            // smash to black at the end
+        }
+        else if(ending == Ending.Awakened)
+        {
+            IEnumerator runawakened()
+            {
+                yield return new WaitForSeconds(1f);
+                // play animation
+                Debug.Log("ANIM");
+                yield return new WaitForSeconds(/*anim duration + beat*/3f);
+                FadePanel.Inst.RunFade(0f);
+            }
+            StartCoroutine(runawakened());
+            // play animation
+            // wait a beat
+            // smash to black
+            // play scream
+        }
+        else
+            FadePanel.Inst.RunFade(2f);
     }
 
     public GameObject ALL_IS_LOST;
@@ -245,6 +279,10 @@ public class GameController : MonoBehaviour
     {
         IEnumerator Delay()
         {
+            if(currentEnding == Ending.Awakened)
+            {
+                Debug.Log("Play scream");
+            }
             ALL_IS_LOST.SetActive(true);
             yield return new WaitForSeconds(2f);
             ALL_IS_LOST.SetActive(false);
