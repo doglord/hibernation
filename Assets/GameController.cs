@@ -121,7 +121,7 @@ public class GameController : MonoBehaviour
         stat_Power = Mathf.Max(stat_Power - vitalsPowerDraw * Time.deltaTime, 0f);
         stat_Power = Mathf.Max(stat_Power - hullPowerDraw * Time.deltaTime, 0f);
 
-        if (stat_Vitals <= 0.33f && !pulse.isPlaying)
+        if (stat_Vitals <= 0.25f && !pulse.isPlaying)
             pulse.Play();
         if(AutopilotEnabled)
         {
@@ -163,18 +163,21 @@ public class GameController : MonoBehaviour
         stat_Anesthetic = slider_Anesthetic.value;
     }
 
+    public AudioSource hullLeftButton;
     int maxHullStrengthLevel = 3;
     int currentHullStrengthLevel = 0;
     public void OnHullPanelPressLeft()
     {
+        if (!hullLeftButton.isPlaying && currentHullStrengthLevel > 0)
+            hullLeftButton.Play();
         currentHullStrengthLevel = Mathf.Max(0, currentHullStrengthLevel - 1);
     }
     public AudioSource hullRightButton;
     public void OnHullPanelPressRight()
     {
-        currentHullStrengthLevel = Mathf.Min(maxHullStrengthLevel, currentHullStrengthLevel + 1);
-        if (!hullRightButton.isPlaying)
+        if (!hullRightButton.isPlaying && currentHullStrengthLevel < 3)
             hullRightButton.Play();
+        currentHullStrengthLevel = Mathf.Min(maxHullStrengthLevel, currentHullStrengthLevel + 1);
     }
     public float APPowerHitDrain = 0.1f;
     public void OnShipCollision(Asteroid asteroid)
