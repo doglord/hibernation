@@ -21,6 +21,9 @@ public class ScreenTrigger : MonoBehaviour
     public List<AudioClip> clips; 
     void OnTriggerEnter2D(Collider2D coll)
     {
+        if(GameController.Inst.GAME_OVER)
+            return;
+            
         // check for asteroid in screen
         Debug.Log("ASTEROID APPROACHING");  
         if(coll.tag == "Asteroid")

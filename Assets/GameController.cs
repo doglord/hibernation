@@ -238,13 +238,18 @@ public class GameController : MonoBehaviour
         WIN
     }
     Ending currentEnding;
+    public Animator awakenAnimator;
+    public AudioSource panicAudio;
+    public AudioSource vacuumAudio;
     void EndGame(Ending ending)
     {
         if(GAME_OVER) return;
 
+        GAME_OVER = true;
+
 
         currentEnding = ending;
-        GAME_OVER = true;
+        
         Debug.Log($"GAME OVER: {ending.ToString()}");
 
         if(ending == Ending.HullBreach)
@@ -254,7 +259,8 @@ public class GameController : MonoBehaviour
                 yield return new WaitForSeconds(2f);
                 // play sound
                 Debug.Log("VACUM");
-                yield return new WaitForSeconds(/*sound duration*/1f);
+                vacuumAudio.Play();
+                yield return new WaitForSeconds(vacuumAudio.clip.length);
                 FadePanel.Inst.RunFade(0f);
             }
             StartCoroutine(runhullbreach());
@@ -270,7 +276,8 @@ public class GameController : MonoBehaviour
                 yield return new WaitForSeconds(1f);
                 // play animation
                 Debug.Log("ANIM");
-                yield return new WaitForSeconds(/*anim duration + beat*/3f);
+                awakenAnimator.Play("open");
+                yield return new WaitForSeconds(/*anim duration + beat*/4.5f);
                 FadePanel.Inst.RunFade(0f);
             }
             StartCoroutine(runawakened());
@@ -291,9 +298,11 @@ public class GameController : MonoBehaviour
             if(currentEnding == Ending.Awakened)
             {
                 Debug.Log("Play scream");
+                panicAudio.Play();
+                yield return new WaitForSeconds(2f);
             }
             ALL_IS_LOST.SetActive(true);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
             ALL_IS_LOST.SetActive(false);
             yield return new WaitForSeconds(1f);
             Bootstrap.Inst.RestartScene();
