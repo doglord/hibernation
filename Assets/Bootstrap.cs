@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Bootstrap : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public static Bootstrap Inst;
+    
+    public Scene mainGame;
+    void Awake() 
+    { 
+        Inst = this; 
+
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Additive);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RestartScene()
     {
-        
+        SceneManager.UnloadScene("SampleScene");
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Additive);
     }
+
 }

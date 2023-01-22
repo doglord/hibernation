@@ -56,7 +56,8 @@ public class GameController : MonoBehaviour
     // every turn:
         // ++ power (solar)
         // 
-
+    System.TimeSpan totalTime;
+    float seconds = 0f;
     void Start()
     {
         initStat_Anesthetic = stat_Anesthetic;
@@ -69,13 +70,27 @@ public class GameController : MonoBehaviour
 
         ShipCollider.onShipCollision += OnShipCollision;
         AsteroidController.onAsteroidSpawned += OnAsteroidSpawned;
+        FadePanel.Inst.onFadeComplete.AddListener(OnFadeOutComplete);
+
+        totalTime = System.TimeSpan.FromHours(26);
+        // totalTime = System.TimeSpan.FromSeconds(11);
     }
 
-
     public AudioSource pulse;
+    public TMP_Text timerText;
+    bool AutopilotEnabled = true;
     void Update()
     {
         if(GAME_OVER) return;
+
+        if(System.TimeSpan.FromSeconds(seconds) > totalTime)
+        {
+            EndGame(Ending.WIN);
+            return;
+        }
+
+
+        seconds += Time.deltaTime;
 
         // jitter bc he is a mess
         stat_Vitals += UnityEngine.Random.Range(-idleVarianceStrength, idleVarianceStrength) * Time.deltaTime;
@@ -103,8 +118,12 @@ public class GameController : MonoBehaviour
 
         if (stat_Vitals >= 0.66f && !pulse.isPlaying)
             pulse.Play();
-
-
+        if(AutopilotEnabled)
+        {
+            stat_Power += max_power * 0.005f;
+            stat_Anesthetic = initStat_Anesthetic;
+            slider_Anesthetic.value = stat_Anesthetic;
+        }
         if(stat_Power <= 0f)
             EndGame(Ending.PowerLoss);
 
@@ -122,14 +141,15 @@ public class GameController : MonoBehaviour
         fillbar_Power.value = (stat_Power / max_power);
         
         hullStrengthDisplay.text = $"{currentHullStrengthLevel}";
-        powerDisplayText.text = $"{(stat_Power * powerDisplayMultiplier).ToString("0.00")}/{(max_power * powerDisplayMultiplier).ToString("N0")}";
+        powerDisplayText.text = $"{(stat_Power * powerDisplayMultiplier).ToString("N0")}/{(max_power * powerDisplayMultiplier).ToString("N0")}";
+        timerText.text = $"{(totalTime - System.TimeSpan.FromSeconds(seconds)).ToString(@"dd\.hh\:mm\:ss")}";
     }
 
     void OnGUI()
     {
-        GUILayout.Label($"Power: {stat_Power}");
-        GUILayout.Label($"Vitals: {stat_Vitals}");
-        GUILayout.Label($"Anesthetic: {stat_Anesthetic}");
+        // GUILayout.Label($"Power: {stat_Power}");
+        // GUILayout.Label($"Vitals: {stat_Vitals}");
+        // GUILayout.Label($"Anesthetic: {stat_Anesthetic}");
     }
 
 
@@ -206,5 +226,48 @@ public class GameController : MonoBehaviour
 
         GAME_OVER = true;
         Debug.Log("GAME OVER");
+
+        FadePanel.Inst.RunFade(2f);
+    }
+
+    public GameObject ALL_IS_LOST;
+    void OnFadeOutComplete()
+    {
+        IEnumerator Delay()
+        {
+            ALL_IS_LOST.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            ALL_IS_LOST.SetActive(false);
+            yield return new WaitForSeconds(1f);
+            Bootstrap.Inst.RestartScene();
+        }
+
+        StartCoroutine(Delay());
+        
+    }
+
+    public FakeKnobPanel hullPanel;
+    public void ToggleAutoPilot()
+    {
+        AutopilotEnabled = !AutopilotEnabled;
+
+        if(AutopilotEnabled)
+        {
+            slider_Anesthetic.interactable = false;
+            hullPanel.DisableInteract();
+        }
+        else
+        {
+            slider_Anesthetic.interactable = true;
+            hullPanel.EnableInteract();
+        }
+    }
+
+
+    void OnDestroy()
+    {
+        ShipCollider.onShipCollision -= OnShipCollision;
+        AsteroidController.onAsteroidSpawned -= OnAsteroidSpawned;
+        FadePanel.Inst.onFadeComplete.RemoveListener(OnFadeOutComplete);
     }
 }
