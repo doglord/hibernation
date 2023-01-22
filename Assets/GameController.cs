@@ -30,6 +30,9 @@ public class GameController : MonoBehaviour
     public float vitalDecayRate = 0.5f;
 
     public TMP_Text hullStrengthDisplay;
+    public TMP_Text powerDisplayText;
+
+    bool GAME_OVER = false;
 
 
     // pressure loss == vacuum
@@ -85,9 +88,16 @@ public class GameController : MonoBehaviour
         stat_Power = Mathf.Max(stat_Power - vitalsPowerDraw * Time.deltaTime, 0f);
         stat_Power = Mathf.Max(stat_Power - hullPowerDraw * Time.deltaTime, 0f);
 
+        if(stat_Power <= 0f)
+            EndGame();
+
+        if(stat_Vitals <= 0f)
+            EndGame();
+
         UpdateDashboard();
     }
 
+    float powerDisplayMultiplier = 1000f;
     void UpdateDashboard()
     {
         fillbar_Vitals.value = stat_Vitals;
@@ -95,6 +105,7 @@ public class GameController : MonoBehaviour
         fillbar_Power.value = (stat_Power / max_power);
         
         hullStrengthDisplay.text = $"{currentHullStrengthLevel}";
+        powerDisplayText.text = $"{(stat_Power * powerDisplayMultiplier).ToString("0.00")}/{(max_power * powerDisplayMultiplier).ToString("N0")}";
     }
 
     void OnGUI()
@@ -120,8 +131,6 @@ public class GameController : MonoBehaviour
     {
         currentHullStrengthLevel = Mathf.Min(maxHullStrengthLevel, currentHullStrengthLevel + 1);
     }
-
-
     public void OnShipCollision(Asteroid asteroid)
     {
         if(currentHullStrengthLevel < ((int)asteroid.type + 1))
@@ -133,9 +142,17 @@ public class GameController : MonoBehaviour
 
         Destroy(asteroid.gameObject);
     }
+    public void OnResetAnestheticLevel()
+    {
+        stat_Anesthetic = initStat_Anesthetic;
+        slider_Anesthetic.value = stat_Anesthetic;
+    }
 
     void EndGame()
     {
+        if(GAME_OVER) return;
+
+        GAME_OVER = true;
         Debug.Log("GAME OVER");
     }
 }
