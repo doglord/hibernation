@@ -71,6 +71,8 @@ public class GameController : MonoBehaviour
         AsteroidController.onAsteroidSpawned += OnAsteroidSpawned;
     }
 
+
+    public AudioSource pulse;
     void Update()
     {
         if(GAME_OVER) return;
@@ -98,6 +100,10 @@ public class GameController : MonoBehaviour
 
         stat_Power = Mathf.Max(stat_Power - vitalsPowerDraw * Time.deltaTime, 0f);
         stat_Power = Mathf.Max(stat_Power - hullPowerDraw * Time.deltaTime, 0f);
+
+        if (stat_Vitals >= 0.66f && !pulse.isPlaying)
+            pulse.Play();
+
 
         if(stat_Power <= 0f)
             EndGame(Ending.PowerLoss);
@@ -138,9 +144,12 @@ public class GameController : MonoBehaviour
     {
         currentHullStrengthLevel = Mathf.Max(0, currentHullStrengthLevel - 1);
     }
+    public AudioSource hullRightButton;
     public void OnHullPanelPressRight()
     {
         currentHullStrengthLevel = Mathf.Min(maxHullStrengthLevel, currentHullStrengthLevel + 1);
+        if (!hullRightButton.isPlaying)
+            hullRightButton.Play();
     }
     public void OnShipCollision(Asteroid asteroid)
     {
